@@ -1,0 +1,145 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Envoy Golden Path - Ingestion API">
+    <mxGraphModel dxNamespace="0" dx="1400" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="Envoy Golden Path -- Ingestion API Platform Architecture" style="text;html=1;fontSize=20;fontStyle=1;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="10" width="800" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="Apigee-managed API ingress, GKE-hosted FastAPI runtime, Cloud SQL persistence, Secret Manager, Workload Identity, Harness CI/CD" style="text;html=1;fontSize=11;fontColor=#666666;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="900" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- Left column boxes -->
+        <mxCell id="pipeline" value="Envoy Golden Path Pipeline&#10;Conversational Service Workspace / IDP&#10;Internal API consumer" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#f5f5f5;strokeColor=#666666;verticalAlign=top;spacingTop=8;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="220" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="apigee" value="Apigee API Proxy&#10;AuthN/AuthZ, API key/JWT&#10;Quota, spike arrest, analytics" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;spacingTop=8;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="80" width="220" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="harness" value="Harness CI/CD + Terraform&#10;GitHub -&gt; tests -&gt; build&#10;Artifact Registry image&#10;Deploy to GKE&#10;Terraform provisions infra" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#f5f5f5;strokeColor=#666666;verticalAlign=top;spacingTop=8;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="360" width="220" height="150" as="geometry" />
+        </mxCell>
+
+        <mxCell id="logging" value="Cloud Logging &amp; Monitoring&#10;Structured app logs&#10;API metrics and alerts" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#e1f5fe;strokeColor=#6c9ebf;verticalAlign=top;spacingTop=8;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="530" width="220" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- VPC container -->
+        <mxCell id="vpc" value="Google Cloud Project / VPC&#10;Private target routing to GKE; private Cloud SQL connectivity preferred" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=8;fontStyle=1;fillColor=none;strokeColor=#000000;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="580" y="80" width="620" height="600" as="geometry" />
+        </mxCell>
+
+        <!-- GKE cluster container -->
+        <mxCell id="gke" value="GKE Cluster" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=8;fontStyle=1;fillColor=none;strokeColor=#82b366;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="600" y="130" width="580" height="330" as="geometry" />
+        </mxCell>
+
+        <mxCell id="k8ssvc" value="K8s Service&#10;envoy-api-svc" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#d5e8d4;strokeColor=#82b366;verticalAlign=top;spacingTop=8;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="630" y="180" width="180" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fastapi" value="FastAPI Deployment&#10;2+ replicas&#10;rolling updates" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;spacingTop=8;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="870" y="180" width="200" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="pod1" value="Pod Replica&#10;FastAPI :8080&#10;SQL Proxy :5432" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;spacingTop=8;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="630" y="320" width="180" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="pod2" value="Pod Replica&#10;FastAPI :8080&#10;SQL Proxy :5432" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;spacingTop=8;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="870" y="320" width="180" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- Data / IAM services -->
+        <mxCell id="cloudsql" value="Cloud SQL PostgreSQL&#10;Private IP&#10;backups / PITR" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#ffe6cc;strokeColor=#d79b00;verticalAlign=top;spacingTop=8;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="800" y="500" width="200" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="secretmgr" value="Secret Manager&#10;API keys, DB credentials&#10;runtime configuration" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#ffe6cc;strokeColor=#d79b00;verticalAlign=top;spacingTop=8;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="500" width="180" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="workload" value="Workload Identity + IAM&#10;KSA -&gt; GSA; least privilege" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#f8cecc;strokeColor=#b85450;verticalAlign=top;spacingTop=8;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="800" y="610" width="380" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Security posture note -->
+        <mxCell id="posture" value="Security posture: All traffic over HTTPS; all consumer access through Apigee; backend uses Workload Identity, Secret Manager, Cloud SQL Auth Proxy, least-privilege IAM, and structured logging." style="text;html=1;fontSize=11;fontStyle=2;align=left;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="40" y="700" width="1160" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Edges -->
+        <mxCell id="e1" value="HTTPS GET/POST" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;" edge="1" parent="1" source="pipeline" target="apigee">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e2" value="Private/internal route: envoy-ingestion" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;" edge="1" parent="1" source="apigee" target="k8ssvc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e3" value="Apigee analytics" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;" edge="1" parent="1" source="apigee" target="logging">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e4" value="Service routing" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;" edge="1" parent="1" source="k8ssvc" target="fastapi">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="fastapi" target="pod1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="fastapi" target="pod2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e7" value="deploy image + manifests" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;" edge="1" parent="1" source="harness" target="pod1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e8" value="deploy image + manifests" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;" edge="1" parent="1" source="harness" target="pod2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e9" value="logs / metrics" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;" edge="1" parent="1" source="pod1" target="logging">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e10" value="localhost:5432 -&gt; proxy / encrypted" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;" edge="1" parent="1" source="pod1" target="cloudsql">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e11" value="localhost:5432 -&gt; proxy / encrypted" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;" edge="1" parent="1" source="pod2" target="cloudsql">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e12" value="mounted/synced secrets" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;" edge="1" parent="1" source="pod1" target="secretmgr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e13" value="mounted/synced secrets" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;" edge="1" parent="1" source="pod2" target="secretmgr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e14" value="provision IAM / SQL / secrets" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;" edge="1" parent="1" source="workload" target="cloudsql">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e15" value="provision IAM / SQL / secrets" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;" edge="1" parent="1" source="workload" target="secretmgr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e16" value="client" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;" edge="1" parent="1" source="logging" target="workload">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
