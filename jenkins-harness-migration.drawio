@@ -1,0 +1,507 @@
+<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- TITLE -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <mxCell id="title" value="Jenkins → Harness Migration Architecture" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=22;fontStyle=1;fontColor=#1e3a5f;" vertex="1" parent="1">
+      <mxGeometry x="200" y="20" width="1260" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="subtitle" value="clarabridge-file-transfer-cs · Preserving build, quality, security, deployment, acceptance testing and rollback capabilities" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#666666;" vertex="1" parent="1">
+      <mxGeometry x="200" y="58" width="1260" height="20" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 1: CURRENT JENKINS ARCHITECTURE (left panel) -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <mxCell id="jenkins_panel" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;arcSize=3;" vertex="1" parent="1">
+      <mxGeometry x="40" y="90" width="520" height="680" as="geometry" />
+    </mxCell>
+    <mxCell id="jenkins_title" value="1. CURRENT JENKINS ARCHITECTURE" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d6b656;strokeColor=#b46504;fontStyle=1;fontSize=12;fontColor=#ffffff;" vertex="1" parent="1">
+      <mxGeometry x="40" y="90" width="520" height="36" as="geometry" />
+    </mxCell>
+
+    <!-- GitHub Enterprise -->
+    <mxCell id="ghe_jenkins" value="🐙  GitHub Enterprise&#xa;clarabridge-file-transfer-cs&#xa;clarabridge-env-configurations&#xa;mta-jenkins · jenkins-pipeline-libraries" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxGeometry x="60" y="142" width="480" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- Arrow GHE to Jenkins -->
+    <mxCell id="arr_ghe_j" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#6c8ebf;strokeWidth=2;" edge="1" source="ghe_jenkins" target="jenkins_pipeline" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Jenkins Multibranch Pipeline -->
+    <mxCell id="jenkins_pipeline" value="⚙️  Jenkins Multibranch Pipeline&#xa;Jenkinsfile.groovy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxGeometry x="60" y="232" width="480" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Arrow to shared lib -->
+    <mxCell id="arr_j_lib" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=2;" edge="1" source="jenkins_pipeline" target="shared_lib" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Shared Library -->
+    <mxCell id="shared_lib" value="📚  mta-jenkins Shared Library&#xa;buildComp_xmd...   |   deployComp_xmd..." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxGeometry x="60" y="314" width="480" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Build Flow box -->
+    <mxCell id="build_flow" value="🔨 Build Flow&#xa;&#xa;poetry install / build&#xa;shiv → clarabridge.zip&#xa;pytest --cov → coverage.xml" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxGeometry x="60" y="396" width="225" height="90" as="geometry" />
+    </mxCell>
+
+    <!-- Deploy Flow box -->
+    <mxCell id="deploy_flow" value="🚀 Deploy Flow&#xa;&#xa;Download ZIP from Nexus&#xa;Expand → C:\clarabridge-cs&#xa;Copy PGP keys · Config files" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxGeometry x="315" y="396" width="225" height="90" as="geometry" />
+    </mxCell>
+
+    <!-- Arrow lib to build -->
+    <mxCell id="arr_lib_b" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#82b366;strokeWidth=2;" edge="1" source="shared_lib" target="build_flow" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <!-- Arrow lib to deploy -->
+    <mxCell id="arr_lib_d" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#9673a6;strokeWidth=2;" edge="1" source="shared_lib" target="deploy_flow" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Quality tools -->
+    <mxCell id="sonar_j" value="🔍  SonarQube&#xa;Code quality gate · coverage.xml · fail on gate failure" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxGeometry x="60" y="516" width="480" height="46" as="geometry" />
+    </mxCell>
+
+    <mxCell id="nexusiq_j" value="🛡️  Nexus IQ&#xa;OSS policy evaluation · fail on Critical / Severe / Must-Fix" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxGeometry x="60" y="572" width="480" height="46" as="geometry" />
+    </mxCell>
+
+    <!-- Nexus Snapshots -->
+    <mxCell id="nexus_j" value="🗄️  Nexus ip-snapshots&#xa;clarabridge-file-transfer-cs-${VERSION}.zip · PyPI dependencies" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxGeometry x="60" y="628" width="480" height="46" as="geometry" />
+    </mxCell>
+
+    <!-- Windows servers -->
+    <mxCell id="win_build_j" value="🪟  Windows Build Server&#xa;node(&quot;windows&quot;) · Poetry · Shiv · pytest · venv · pip · CA.crt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#666666;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxGeometry x="60" y="684" width="225" height="56" as="geometry" />
+    </mxCell>
+
+    <mxCell id="win_deploy_j" value="🪟  Windows Deploy Server&#xa;C:\clarabridge-cs · PGP keys&#xa;Config files · withCredentials(...)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#666666;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxGeometry x="315" y="684" width="225" height="56" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- MIGRATION ARROW (centre) -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <mxCell id="migrate_arr" value="MIGRATE" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#FF6600;strokeWidth=5;fillColor=#FF6600;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;endArrow=block;endFill=1;fontStyle=1;fontSize=12;fontColor=#FF6600;align=center;labelPosition=center;verticalLabelPosition=top;" edge="1" source="jenkins_panel" target="harness_panel" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 2: HARNESS TARGET ARCHITECTURE (right panel) -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <mxCell id="harness_panel" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;arcSize=3;" vertex="1" parent="1">
+      <mxGeometry x="640" y="90" width="980" height="680" as="geometry" />
+    </mxCell>
+    <mxCell id="harness_title" value="2. HARNESS TARGET ARCHITECTURE" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#82b366;strokeColor=#6d8f54;fontStyle=1;fontSize=12;fontColor=#ffffff;" vertex="1" parent="1">
+      <mxGeometry x="640" y="90" width="980" height="36" as="geometry" />
+    </mxCell>
+
+    <!-- Sources column -->
+    <mxCell id="sources_label" value="SOURCES" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontStyle=1;fontSize=10;fontColor=#333333;" vertex="1" parent="1">
+      <mxGeometry x="660" y="138" width="160" height="20" as="geometry" />
+    </mxCell>
+
+    <mxCell id="ghe_h" value="🐙&#xa;GitHub Enterprise&#xa;Source Code Repo&#xa;Env Config Repo" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="660" y="162" width="160" height="70" as="geometry" />
+    </mxCell>
+
+    <mxCell id="cfts_repo" value="📁&#xa;clarabridge-file-&#xa;transfer-cs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="660" y="248" width="160" height="50" as="geometry" />
+    </mxCell>
+
+    <mxCell id="env_repo" value="📁&#xa;clarabridge-env-&#xa;configurations" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="660" y="308" width="160" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Harness Core Platform -->
+    <mxCell id="harness_core_label" value="HARNESS PLATFORM" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontStyle=1;fontSize=10;fontColor=#333333;" vertex="1" parent="1">
+      <mxGeometry x="850" y="138" width="540" height="20" as="geometry" />
+    </mxCell>
+
+    <mxCell id="h_pipelines" value="📋  Pipelines" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#82b366;strokeColor=#6d8f54;fontSize=11;fontStyle=1;fontColor=#ffffff;" vertex="1" parent="1">
+      <mxGeometry x="850" y="162" width="155" height="50" as="geometry" />
+    </mxCell>
+    <mxCell id="h_envs" value="🌐  Environments" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#82b366;strokeColor=#6d8f54;fontSize=11;fontStyle=1;fontColor=#ffffff;" vertex="1" parent="1">
+      <mxGeometry x="1020" y="162" width="155" height="50" as="geometry" />
+    </mxCell>
+    <mxCell id="h_connectors" value="🔌  Connectors" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#82b366;strokeColor=#6d8f54;fontSize=11;fontStyle=1;fontColor=#ffffff;" vertex="1" parent="1">
+      <mxGeometry x="1190" y="162" width="155" height="50" as="geometry" />
+    </mxCell>
+    <mxCell id="h_secrets" value="🔐  Secrets" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#82b366;strokeColor=#6d8f54;fontSize=11;fontStyle=1;fontColor=#ffffff;" vertex="1" parent="1">
+      <mxGeometry x="850" y="228" width="155" height="50" as="geometry" />
+    </mxCell>
+    <mxCell id="h_templates" value="📐  Templates" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#82b366;strokeColor=#6d8f54;fontSize=11;fontStyle=1;fontColor=#ffffff;" vertex="1" parent="1">
+      <mxGeometry x="1020" y="228" width="155" height="50" as="geometry" />
+    </mxCell>
+    <mxCell id="h_approvals" value="✅  Approvals / RBAC" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#82b366;strokeColor=#6d8f54;fontSize=11;fontStyle=1;fontColor=#ffffff;" vertex="1" parent="1">
+      <mxGeometry x="1190" y="228" width="155" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Integrations column -->
+    <mxCell id="int_label" value="INTEGRATIONS" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontStyle=1;fontSize=10;fontColor=#333333;" vertex="1" parent="1">
+      <mxGeometry x="1380" y="138" width="210" height="20" as="geometry" />
+    </mxCell>
+
+    <mxCell id="int_nexus" value="🗄️  Nexus (PyPI / Snapshots)&#xa;Dependencies · Upload · Download" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="1">
+      <mxGeometry x="1380" y="162" width="210" height="44" as="geometry" />
+    </mxCell>
+    <mxCell id="int_nexusiq" value="🛡️  Nexus IQ&#xa;OSS Security Scanning" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="1">
+      <mxGeometry x="1380" y="214" width="210" height="44" as="geometry" />
+    </mxCell>
+    <mxCell id="int_sonar" value="🔍  SonarQube&#xa;Static Code Analysis &amp; Quality Gates" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="1">
+      <mxGeometry x="1380" y="266" width="210" height="44" as="geometry" />
+    </mxCell>
+    <mxCell id="int_winbuild" value="🪟  Windows Build Server&#xa;Poetry · Shiv · pytest · venv" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#666666;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="1">
+      <mxGeometry x="1380" y="318" width="210" height="44" as="geometry" />
+    </mxCell>
+    <mxCell id="int_windeploy" value="🪟  Windows Deploy Server&#xa;C:\clarabridge-cs · PGP Keys" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#666666;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="1">
+      <mxGeometry x="1380" y="370" width="210" height="44" as="geometry" />
+    </mxCell>
+
+    <!-- Windows Delegate box -->
+    <mxCell id="win_delegate" value="🪟  WINDOWS DELEGATE&#xa;Executes PowerShell · Python · Poetry · File Operations on Windows" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e3a5f;strokeColor=#00b4d8;fontSize=12;fontStyle=1;fontColor=#ffffff;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="850" y="434" width="740" height="54" as="geometry" />
+    </mxCell>
+
+    <!-- Arrows from sources to platform -->
+    <mxCell id="arr_ghe_platform" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#6c8ebf;strokeWidth=2;" edge="1" source="ghe_h" target="h_pipelines" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Arrows platform to integrations -->
+    <mxCell id="arr_conn_nexus" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#6c8ebf;strokeWidth=1;dashed=1;" edge="1" source="h_connectors" target="int_nexus" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="arr_conn_niq" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d6b656;strokeWidth=1;dashed=1;" edge="1" source="h_connectors" target="int_nexusiq" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="arr_conn_sonar" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d6b656;strokeWidth=1;dashed=1;" edge="1" source="h_connectors" target="int_sonar" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Arrow platform to delegate -->
+    <mxCell id="arr_pipe_delegate" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#00b4d8;strokeWidth=2;" edge="1" source="h_pipelines" target="win_delegate" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Arrow delegate to windows servers -->
+    <mxCell id="arr_del_winbuild" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#666666;strokeWidth=1;dashed=1;" edge="1" source="win_delegate" target="int_winbuild" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="arr_del_windeploy" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#666666;strokeWidth=1;dashed=1;" edge="1" source="win_delegate" target="int_windeploy" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Secrets legend inside harness panel -->
+    <mxCell id="secrets_box" value="🔑  Harness Secrets&#xa;GHE_PAT · NEXUS_USERNAME · NEXUS_PASSWORD&#xa;NEXUS_IQ_USERNAME · NEXUS_IQ_PASSWORD · SONAR_TOKEN" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxGeometry x="660" y="434" width="170" height="70" as="geometry" />
+    </mxCell>
+
+    <!-- Benefits box inside harness panel -->
+    <mxCell id="benefits_box" value="✅  Key Benefits&#xa;• Centralised CI/CD platform&#xa;• Better visibility &amp; audit trail&#xa;• Reduced shared library dependency&#xa;• Native RBAC &amp; approvals&#xa;• Native rollback history" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxGeometry x="660" y="516" width="170" height="100" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 3: MIGRATION PHASES -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <mxCell id="phases_label" value="3. MIGRATION APPROACH — PHASES" style="text;html=1;strokeColor=none;fillColor=#1e3a5f;align=left;fontStyle=1;fontSize=13;fontColor=#ffffff;fillColor=#1e3a5f;rounded=1;" vertex="1" parent="1">
+      <mxGeometry x="40" y="800" width="1580" height="30" as="geometry" />
+    </mxCell>
+
+    <mxCell id="ph1" value="1&#xa;DISCOVERY &amp;&#xa;READINESS&#xa;&#xa;Inventory repos,&#xa;credentials,&#xa;dependencies" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="40" y="840" width="220" height="100" as="geometry" />
+    </mxCell>
+    <mxCell id="arr_ph12" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#FF6600;strokeWidth=2;endArrow=block;endFill=1;" edge="1" source="ph1" target="ph2" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="ph2" value="2&#xa;FOUNDATION&#xa;SETUP&#xa;&#xa;Connectors, secrets,&#xa;environments,&#xa;delegates" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="305" y="840" width="220" height="100" as="geometry" />
+    </mxCell>
+    <mxCell id="arr_ph23" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#FF6600;strokeWidth=2;endArrow=block;endFill=1;" edge="1" source="ph2" target="ph3" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="ph3" value="3&#xa;BUILD PIPELINE&#xa;MIGRATION&#xa;&#xa;Quality, security scans&#xa;&amp; artifact publishing&#xa;on Windows delegate" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="570" y="840" width="220" height="100" as="geometry" />
+    </mxCell>
+    <mxCell id="arr_ph34" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#FF6600;strokeWidth=2;endArrow=block;endFill=1;" edge="1" source="ph3" target="ph4" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="ph4" value="4&#xa;DEPLOY PIPELINE&#xa;MIGRATION&#xa;&#xa;Config, directories,&#xa;application deploy,&#xa;PGP keys" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="835" y="840" width="220" height="100" as="geometry" />
+    </mxCell>
+    <mxCell id="arr_ph45" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#FF6600;strokeWidth=2;endArrow=block;endFill=1;" edge="1" source="ph4" target="ph5" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="ph5" value="5&#xa;TESTING &amp;&#xa;VALIDATION&#xa;&#xa;Acceptance tests,&#xa;parallel run,&#xa;end-to-end validate" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="1100" y="840" width="220" height="100" as="geometry" />
+    </mxCell>
+    <mxCell id="arr_ph56" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#FF6600;strokeWidth=2;endArrow=block;endFill=1;" edge="1" source="ph5" target="ph6" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="ph6" value="6&#xa;CUTOVER &amp;&#xa;OPTIMISATION&#xa;&#xa;Prod cutover, monitoring,&#xa;rollback validation,&#xa;Jenkins decommission" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="1365" y="840" width="255" height="100" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 4: BUILD PIPELINE FLOW -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <mxCell id="build_label" value="4. BUILD PIPELINE FLOW (HARNESS — 9 Stages)" style="text;html=1;strokeColor=none;fillColor=#1e3a5f;align=left;fontStyle=1;fontSize=13;fontColor=#ffffff;fillColor=#1e3a5f;rounded=1;" vertex="1" parent="1">
+      <mxGeometry x="40" y="970" width="1580" height="30" as="geometry" />
+    </mxCell>
+
+    <!-- Build steps -->
+    <mxCell id="bs1" value="①&#xa;Code&#xa;Checkout&#xa;Clone from GHE" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;fontStyle=1;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="40" y="1010" width="150" height="80" as="geometry" />
+    </mxCell>
+    <mxCell id="arr_bs12" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#82b366;strokeWidth=2;endArrow=block;endFill=1;" edge="1" source="bs1" target="bs2" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="bs2" value="②&#xa;Extract&#xa;Version&#xa;pyproject.toml&#xa;→ $VERSION" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;fontStyle=1;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="210" y="1010" width="150" height="80" as="geometry" />
+    </mxCell>
+    <mxCell id="arr_bs23" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#82b366;strokeWidth=2;endArrow=block;endFill=1;" edge="1" source="bs2" target="bs3" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="bs3" value="③&#xa;Configure&#xa;Python Env&#xa;venv · pip&#xa;poetry · shiv" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;fontStyle=1;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="380" y="1010" width="150" height="80" as="geometry" />
+    </mxCell>
+    <mxCell id="arr_bs34" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#82b366;strokeWidth=2;endArrow=block;endFill=1;" edge="1" source="bs3" target="bs4" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="bs4" value="④&#xa;Build App&#xa;&#xa;poetry install&#xa;poetry build&#xa;wheel / tar.gz" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;fontStyle=1;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="550" y="1010" width="150" height="80" as="geometry" />
+    </mxCell>
+    <mxCell id="arr_bs45" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#82b366;strokeWidth=2;endArrow=block;endFill=1;" edge="1" source="bs4" target="bs5" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="bs5" value="⑤&#xa;Create&#xa;Package&#xa;shiv →&#xa;clarabridge.zip" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;fontStyle=1;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="720" y="1010" width="150" height="80" as="geometry" />
+    </mxCell>
+    <mxCell id="arr_bs56" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d6b656;strokeWidth=2;endArrow=block;endFill=1;" edge="1" source="bs5" target="bs6" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="bs6" value="⑥&#xa;Unit Tests&#xa;&amp; Coverage&#xa;pytest --cov&#xa;→ coverage.xml" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;fontStyle=1;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="890" y="1010" width="150" height="80" as="geometry" />
+    </mxCell>
+    <mxCell id="arr_bs67" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d6b656;strokeWidth=2;endArrow=block;endFill=1;" edge="1" source="bs6" target="bs7" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="bs7" value="⑦&#xa;SonarQube&#xa;Scan&#xa;Scan + Quality&#xa;Gate · fail" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;fontStyle=1;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="1060" y="1010" width="150" height="80" as="geometry" />
+    </mxCell>
+    <mxCell id="arr_bs78" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d6b656;strokeWidth=2;endArrow=block;endFill=1;" edge="1" source="bs7" target="bs8" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="bs8" value="⑧&#xa;Nexus IQ&#xa;Scan&#xa;Policy eval&#xa;Critical/Severe" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;fontStyle=1;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="1230" y="1010" width="150" height="80" as="geometry" />
+    </mxCell>
+    <mxCell id="arr_bs89" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#82b366;strokeWidth=2;endArrow=block;endFill=1;" edge="1" source="bs8" target="bs9" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="bs9" value="⑨&#xa;Publish&#xa;Artifact&#xa;Upload ZIP →&#xa;Nexus ip-snapshots" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;fontStyle=1;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="1400" y="1010" width="210" height="80" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 5: DEPLOY PIPELINE FLOW -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <mxCell id="deploy_label" value="5. DEPLOYMENT PIPELINE FLOW (HARNESS — 6 Stages)" style="text;html=1;strokeColor=none;fillColor=#1e3a5f;align=left;fontStyle=1;fontSize=13;fontColor=#ffffff;fillColor=#1e3a5f;rounded=1;" vertex="1" parent="1">
+      <mxGeometry x="40" y="1110" width="1580" height="30" as="geometry" />
+    </mxCell>
+
+    <mxCell id="ds1" value="①&#xa;Retrieve&#xa;Artifact&#xa;Download ZIP&#xa;from Nexus" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;fontStyle=1;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="40" y="1150" width="225" height="80" as="geometry" />
+    </mxCell>
+    <mxCell id="arr_ds12" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#9673a6;strokeWidth=2;endArrow=block;endFill=1;" edge="1" source="ds1" target="ds2" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="ds2" value="②&#xa;Prepare Dirs&#xa;&#xa;Create C:\clarabridge-cs\*&#xa;archive · input · issues&#xa;logs · schemas · pgpfiles" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;fontStyle=1;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="315" y="1150" width="225" height="80" as="geometry" />
+    </mxCell>
+    <mxCell id="arr_ds23" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#9673a6;strokeWidth=2;endArrow=block;endFill=1;" edge="1" source="ds2" target="ds3" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="ds3" value="③&#xa;Deploy Config&#xa;Files&#xa;.env · settings JSON&#xa;schema files from&#xa;env-configurations repo" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;fontStyle=1;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="590" y="1150" width="225" height="80" as="geometry" />
+    </mxCell>
+    <mxCell id="arr_ds34" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#9673a6;strokeWidth=2;endArrow=block;endFill=1;" edge="1" source="ds3" target="ds4" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="ds4" value="④&#xa;Deploy&#xa;Application&#xa;Expand ZIP →&#xa;C:\clarabridge-cs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;fontStyle=1;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="865" y="1150" width="225" height="80" as="geometry" />
+    </mxCell>
+    <mxCell id="arr_ds45" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#9673a6;strokeWidth=2;endArrow=block;endFill=1;" edge="1" source="ds4" target="ds5" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="ds5" value="⑤&#xa;Copy PGP Keys&#xa;&#xa;pgp_dev_key&#xa;pgp_dev_key.pub&#xa;→ app pgpfiles folder" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;fontStyle=1;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="1140" y="1150" width="225" height="80" as="geometry" />
+    </mxCell>
+    <mxCell id="arr_ds56" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#9673a6;strokeWidth=2;endArrow=block;endFill=1;" edge="1" source="ds5" target="ds6" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="ds6" value="⑥&#xa;Trigger&#xa;Acceptance Tests&#xa;GIT_BRANCH=master&#xa;ENV=aurora_windows&#xa;TAGS=@Regression" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;fontStyle=1;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="1415" y="1150" width="205" height="80" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 6: ROLLBACK + SPRINTS + CREDENTIALS -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <mxCell id="bottom_label" value="6. ROLLBACK STRATEGY  |  7. CUTOVER SPRINTS  |  8. CREDENTIALS MAP" style="text;html=1;strokeColor=none;fillColor=#1e3a5f;align=left;fontStyle=1;fontSize=13;fontColor=#ffffff;fillColor=#1e3a5f;rounded=1;" vertex="1" parent="1">
+      <mxGeometry x="40" y="1250" width="1580" height="30" as="geometry" />
+    </mxCell>
+
+    <!-- Rollback panel -->
+    <mxCell id="rb_panel" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="40" y="1290" width="500" height="230" as="geometry" />
+    </mxCell>
+    <mxCell id="rb_title" value="↩  ROLLBACK STRATEGY (3 LEVELS)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d6b656;strokeColor=#b46504;fontStyle=1;fontSize=11;fontColor=#ffffff;" vertex="1" parent="1">
+      <mxGeometry x="40" y="1290" width="500" height="30" as="geometry" />
+    </mxCell>
+
+    <mxCell id="rb1" value="LEVEL 1 — ARTIFACT ROLLBACK&#xa;Keep versioned ZIPs in Nexus (2.3.0, 2.3.1, 2.3.2…)&#xa;On failure: re-deploy previous successful version." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxGeometry x="60" y="1332" width="460" height="50" as="geometry" />
+    </mxCell>
+
+    <mxCell id="rb2" value="LEVEL 2 — DIRECTORY BACKUP ROLLBACK&#xa;Before deploy: rename C:\clarabridge-cs → C:\clarabridge-cs_backup&#xa;On failure: restore backup folder immediately." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxGeometry x="60" y="1392" width="460" height="50" as="geometry" />
+    </mxCell>
+
+    <mxCell id="rb3" value="LEVEL 3 — JENKINS FALLBACK&#xa;Do NOT decommission Jenkins immediately.&#xa;Keep Jenkins live; Harness becomes primary. Revert if needed." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxGeometry x="60" y="1452" width="460" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Sprint panel -->
+    <mxCell id="sprint_panel" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="560" y="1290" width="560" height="230" as="geometry" />
+    </mxCell>
+    <mxCell id="sprint_title" value="📅  CUTOVER PLAN — SUGGESTED SPRINTS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6c8ebf;strokeColor=#4a6fa5;fontStyle=1;fontSize=11;fontColor=#ffffff;" vertex="1" parent="1">
+      <mxGeometry x="560" y="1290" width="560" height="30" as="geometry" />
+    </mxCell>
+
+    <mxCell id="sp1" value="Sprint 1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="576" y="1332" width="80" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="sp1_txt" value="Discovery · Documentation · Connector Setup" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="666" y="1332" width="440" height="30" as="geometry" />
+    </mxCell>
+
+    <mxCell id="sp2" value="Sprint 2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="576" y="1372" width="80" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="sp2_txt" value="Build Pipeline Migration · SonarQube · Nexus IQ · Artifact Publish" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="666" y="1372" width="440" height="30" as="geometry" />
+    </mxCell>
+
+    <mxCell id="sp3" value="Sprint 3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="576" y="1412" width="80" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="sp3_txt" value="Deploy Pipeline Migration · Configuration Deployment" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="666" y="1412" width="440" height="30" as="geometry" />
+    </mxCell>
+
+    <mxCell id="sp4" value="Sprint 4" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="576" y="1452" width="80" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="sp4_txt" value="Acceptance Test Migration · Parallel Validation" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="666" y="1452" width="440" height="30" as="geometry" />
+    </mxCell>
+
+    <mxCell id="sp5" value="Sprint 5" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="576" y="1492" width="80" height="20" as="geometry" />
+    </mxCell>
+    <mxCell id="sp5_txt" value="Production Cutover · Rollback Validation" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="666" y="1492" width="440" height="20" as="geometry" />
+    </mxCell>
+
+    <mxCell id="sp6" value="Sprint 6" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#666666;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="576" y="1482" width="80" height="28" as="geometry" />
+    </mxCell>
+    <!-- reuse sp6 label -->
+
+    <!-- Credentials panel -->
+    <mxCell id="cred_panel" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="1140" y="1290" width="480" height="230" as="geometry" />
+    </mxCell>
+    <mxCell id="cred_title" value="🔐  CREDENTIALS → HARNESS SECRETS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#9673a6;strokeColor=#7a5fa0;fontStyle=1;fontSize=11;fontColor=#ffffff;" vertex="1" parent="1">
+      <mxGeometry x="1140" y="1290" width="480" height="30" as="geometry" />
+    </mxCell>
+
+    <mxCell id="c1" value="GHE_PAT" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1">
+      <mxGeometry x="1156" y="1332" width="180" height="28" as="geometry" />
+    </mxCell>
+    <mxCell id="c1t" value="→  GitHub Enterprise Access" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="1346" y="1332" width="260" height="28" as="geometry" />
+    </mxCell>
+
+    <mxCell id="c2" value="NEXUS_USERNAME / PASSWORD" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1">
+      <mxGeometry x="1156" y="1370" width="180" height="28" as="geometry" />
+    </mxCell>
+    <mxCell id="c2t" value="→  Nexus Repository" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="1346" y="1370" width="260" height="28" as="geometry" />
+    </mxCell>
+
+    <mxCell id="c3" value="NEXUS_IQ_USERNAME / PASSWORD" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1">
+      <mxGeometry x="1156" y="1408" width="180" height="28" as="geometry" />
+    </mxCell>
+    <mxCell id="c3t" value="→  Nexus IQ Scanner" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="1346" y="1408" width="260" height="28" as="geometry" />
+    </mxCell>
+
+    <mxCell id="c4" value="SONAR_TOKEN" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1">
+      <mxGeometry x="1156" y="1446" width="180" height="28" as="geometry" />
+    </mxCell>
+    <mxCell id="c4t" value="→  SonarQube Access" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="1346" y="1446" width="260" height="28" as="geometry" />
+    </mxCell>
+
+    <mxCell id="c_note" value="All Jenkins withCredentials(...) blocks replaced by Harness Secrets Manager with RBAC &amp; Audit Logging" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#9673a6;strokeColor=#7a5fa0;fontSize=10;fontColor=#ffffff;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxGeometry x="1156" y="1484" width="450" height="28" as="geometry" />
+    </mxCell>
+
+    <!-- Sprint 5/6 fix -->
+    <mxCell id="sp5b" value="Sprint 5" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="576" y="1452" width="80" height="28" as="geometry" />
+    </mxCell>
+    <mxCell id="sp5tb" value="Production Cutover · Rollback Validation" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="666" y="1452" width="440" height="28" as="geometry" />
+    </mxCell>
+
+    <mxCell id="sp6b" value="Sprint 6" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#666666;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="576" y="1490" width="80" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="sp6tb" value="Jenkins Decommission (after stability period)" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="666" y="1490" width="440" height="22" as="geometry" />
+    </mxCell>
+
+  </root>
+</mxGraphModel>
