@@ -1,0 +1,375 @@
+<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+
+    <!-- ════════════════════════════════════════════ -->
+    <!-- TITLE -->
+    <!-- ════════════════════════════════════════════ -->
+    <mxCell id="t1" value="Jenkins → Harness Migration" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=18;fontStyle=1;fontColor=#1e3a5f;" vertex="1" parent="1">
+      <mxGeometry x="40" y="20" width="500" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="t2" value="clarabridge-file-transfer-cs  |  CI/CD Pipeline Migration Flow" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;fontColor=#888888;" vertex="1" parent="1">
+      <mxGeometry x="40" y="50" width="500" height="18" as="geometry" />
+    </mxCell>
+
+    <!-- ════════════════════════════════════════════════════════════════════ -->
+    <!-- ROW 1 — CURRENT JENKINS FLOW                                        -->
+    <!-- ════════════════════════════════════════════════════════════════════ -->
+
+    <!-- Row label -->
+    <mxCell id="r1lbl" value="CURRENT  (Jenkins)" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=9;fontStyle=1;fontColor=#b85450;rotation=-90;" vertex="1" parent="1">
+      <mxGeometry x="10" y="200" width="100" height="20" as="geometry" />
+    </mxCell>
+
+    <!-- GitHub box -->
+    <mxCell id="j_gh" value="&#x1F4BB;&#xa;GitHub&#xa;Enterprise&#xa;PR / Merge" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=9;strokeWidth=1.5;" vertex="1" parent="1">
+      <mxGeometry x="40" y="130" width="100" height="80" as="geometry" />
+    </mxCell>
+
+    <!-- Arrow GH → Jenkins bg -->
+    <mxCell id="j_arr1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=2;endArrow=block;endFill=1;" edge="1" source="j_gh" target="j_multi" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="j_sha" value="Exact commit SHA" style="text;html=1;strokeColor=none;fillColor=none;fontSize=8;fontColor=#888888;fontStyle=2;" vertex="1" parent="1">
+      <mxGeometry x="148" y="183" width="110" height="14" as="geometry" />
+    </mxCell>
+
+    <!-- Jenkins platform background -->
+    <mxCell id="j_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff0ee;strokeColor=#b85450;strokeWidth=1.5;arcSize=4;" vertex="1" parent="1">
+      <mxGeometry x="155" y="110" width="640" height="120" as="geometry" />
+    </mxCell>
+    <mxCell id="j_bg_lbl" value="Jenkins  |  mta-jenkins Shared Library  |  Jenkinsfile.groovy" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=9;fontStyle=1;fontColor=#b85450;" vertex="1" parent="1">
+      <mxGeometry x="163" y="114" width="420" height="16" as="geometry" />
+    </mxCell>
+
+    <!-- Jenkins Multibranch box -->
+    <mxCell id="j_multi" value="Jenkins&#xa;Multibranch&#xa;Pipeline" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=9;strokeWidth=1.5;" vertex="1" parent="1">
+      <mxGeometry x="168" y="138" width="110" height="68" as="geometry" />
+    </mxCell>
+
+    <!-- Arrow → shared lib -->
+    <mxCell id="j_arr2" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" source="j_multi" target="j_lib" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Shared Library box -->
+    <mxCell id="j_lib" value="mta-jenkins&#xa;Shared Library&#xa;buildComp / deployComp" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=9;strokeWidth=1.5;" vertex="1" parent="1">
+      <mxGeometry x="328" y="138" width="150" height="68" as="geometry" />
+    </mxCell>
+
+    <!-- Arrow → build box -->
+    <mxCell id="j_arr3a" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" source="j_lib" target="j_build" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Build Flow box -->
+    <mxCell id="j_build" value="Build Flow&#xa;poetry / shiv&#xa;pytest / SonarQube&#xa;Nexus IQ" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=9;strokeWidth=1.5;" vertex="1" parent="1">
+      <mxGeometry x="528" y="120" width="120" height="72" as="geometry" />
+    </mxCell>
+
+    <!-- Arrow → deploy box -->
+    <mxCell id="j_arr3b" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" source="j_lib" target="j_deploy" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Deploy Flow box -->
+    <mxCell id="j_deploy" value="Deploy Flow&#xa;Windows Node&#xa;C:\clarabridge-cs&#xa;PGP / Config" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=9;strokeWidth=1.5;" vertex="1" parent="1">
+      <mxGeometry x="528" y="154" width="120" height="68" as="geometry" />
+    </mxCell>
+
+    <!-- Arrow → Nexus (Jenkins) -->
+    <mxCell id="j_arr4" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" source="j_build" target="j_nexus" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Nexus Snapshots box (Jenkins) -->
+    <mxCell id="j_nexus" value="&#x1F5C4;&#xa;Nexus&#xa;ip-snapshots" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;strokeWidth=1.5;" vertex="1" parent="1">
+      <mxGeometry x="700" y="130" width="80" height="72" as="geometry" />
+    </mxCell>
+
+    <!-- Windows node box -->
+    <mxCell id="j_win" value="&#x1FA9F;&#xa;Windows&#xa;Build / Deploy&#xa;Server" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=9;strokeWidth=1.5;" vertex="1" parent="1">
+      <mxGeometry x="810" y="130" width="90" height="72" as="geometry" />
+    </mxCell>
+    <mxCell id="j_arr5" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" source="j_nexus" target="j_win" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- ════════════════════════════════════════════════════════════════════ -->
+    <!-- BIG MIGRATION ARROW                                                  -->
+    <!-- ════════════════════════════════════════════════════════════════════ -->
+    <mxCell id="mig_arrow" value="MIGRATE" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=11;fontStyle=1;fontColor=#FF6600;" vertex="1" parent="1">
+      <mxGeometry x="940" y="220" width="80" height="20" as="geometry" />
+    </mxCell>
+    <mxCell id="mig_line" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#FF6600;strokeWidth=4;endArrow=block;endFill=1;startArrow=none;" edge="1" parent="1">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points" />
+        <mxPoint x="935" y="235" as="sourcePoint" />
+        <mxPoint x="1020" y="235" as="targetPoint" />
+      </mxGeometry>
+    </mxCell>
+
+    <!-- ════════════════════════════════════════════════════════════════════ -->
+    <!-- ROW 2 — HARNESS TARGET FLOW (same horizontal level, right side)     -->
+    <!-- ════════════════════════════════════════════════════════════════════ -->
+
+    <mxCell id="r2lbl" value="TARGET  (Harness)" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=9;fontStyle=1;fontColor=#1E8449;rotation=-90;" vertex="1" parent="1">
+      <mxGeometry x="10" y="440" width="100" height="20" as="geometry" />
+    </mxCell>
+
+    <!-- GitHub (same trigger) -->
+    <mxCell id="h_gh" value="&#x1F4BB;&#xa;GitHub&#xa;Enterprise&#xa;PR / Merge" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=9;strokeWidth=1.5;" vertex="1" parent="1">
+      <mxGeometry x="40" y="360" width="100" height="80" as="geometry" />
+    </mxCell>
+
+    <!-- Arrow GH → Harness -->
+    <mxCell id="h_arr1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#1E8449;strokeWidth=2;endArrow=block;endFill=1;" edge="1" source="h_gh" target="h_orch" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="h_sha" value="Exact commit SHA" style="text;html=1;strokeColor=none;fillColor=none;fontSize=8;fontColor=#888888;fontStyle=2;" vertex="1" parent="1">
+      <mxGeometry x="148" y="413" width="110" height="14" as="geometry" />
+    </mxCell>
+
+    <!-- Harness platform background -->
+    <mxCell id="h_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0faf0;strokeColor=#82b366;strokeWidth=1.5;arcSize=4;" vertex="1" parent="1">
+      <mxGeometry x="155" y="340" width="660" height="120" as="geometry" />
+    </mxCell>
+    <mxCell id="h_bg_lbl" value="harness  |  Google Cloud Platform  |  Windows Delegate" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=9;fontStyle=1;fontColor=#1E8449;" vertex="1" parent="1">
+      <mxGeometry x="163" y="344" width="450" height="16" as="geometry" />
+    </mxCell>
+
+    <!-- Harness Orchestration -->
+    <mxCell id="h_orch" value="Harness&#xa;Pipeline&#xa;Orchestration" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=9;strokeWidth=1.5;" vertex="1" parent="1">
+      <mxGeometry x="168" y="368" width="110" height="68" as="geometry" />
+    </mxCell>
+
+    <!-- Arrow → Build execution -->
+    <mxCell id="h_arr2" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#82b366;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" source="h_orch" target="h_build" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Build execution box -->
+    <mxCell id="h_build" value="Build Pipeline&#xa;Execution&#xa;poetry/shiv/pytest" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=9;strokeWidth=1.5;" vertex="1" parent="1">
+      <mxGeometry x="328" y="368" width="130" height="68" as="geometry" />
+    </mxCell>
+
+    <!-- Arrow → Quality gate diamond -->
+    <mxCell id="h_arr3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#82b366;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" source="h_build" target="h_diamond" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Quality Gate diamond -->
+    <mxCell id="h_diamond" value="Quality&#xa;Gate&#xa;Passed?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=9;strokeWidth=1.5;" vertex="1" parent="1">
+      <mxGeometry x="498" y="352" width="100" height="100" as="geometry" />
+    </mxCell>
+
+    <!-- No → Run nothing -->
+    <mxCell id="h_arr_no" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;endArrow=block;endFill=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" source="h_diamond" target="h_nothing" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="h_no_lbl" value="No" style="text;html=1;strokeColor=none;fillColor=none;fontSize=9;fontColor=#333333;" vertex="1" parent="1">
+      <mxGeometry x="546" y="322" width="30" height="16" as="geometry" />
+    </mxCell>
+
+    <!-- Run nothing box -->
+    <mxCell id="h_nothing" value="Run successful –&#xa;do nothing" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#aaaaaa;fontSize=9;strokeWidth=1;" vertex="1" parent="1">
+      <mxGeometry x="510" y="278" width="120" height="46" as="geometry" />
+    </mxCell>
+
+    <!-- Yes → Publish artifact -->
+    <mxCell id="h_arr_yes" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#1E8449;strokeWidth=1.5;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" source="h_diamond" target="h_nexus" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="h_yes_lbl" value="Yes" style="text;html=1;strokeColor=none;fillColor=none;fontSize=9;fontColor=#1E8449;" vertex="1" parent="1">
+      <mxGeometry x="618" y="390" width="30" height="16" as="geometry" />
+    </mxCell>
+
+    <!-- Nexus Snapshots (Harness) -->
+    <mxCell id="h_nexus" value="&#x1F5C4;&#xa;Nexus&#xa;ip-snapshots&#xa;Artifact Upload" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;strokeWidth=1.5;" vertex="1" parent="1">
+      <mxGeometry x="660" y="362" width="100" height="76" as="geometry" />
+    </mxCell>
+
+    <!-- Windows Delegate box -->
+    <mxCell id="h_win" value="&#x1FA9F;&#xa;Windows&#xa;Delegate&#xa;Build / Deploy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=9;strokeWidth=1.5;" vertex="1" parent="1">
+      <mxGeometry x="800" y="362" width="100" height="76" as="geometry" />
+    </mxCell>
+    <mxCell id="h_arr4" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#1E8449;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" source="h_nexus" target="h_win" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Agent Registry -->
+    <mxCell id="h_registry" value="Agent Registry&#xa;(Harness Artifacts)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#aaaaaa;fontSize=9;strokeWidth=1.5;" vertex="1" parent="1">
+      <mxGeometry x="940" y="375" width="120" height="50" as="geometry" />
+    </mxCell>
+    <mxCell id="h_arr5" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" source="h_win" target="h_registry" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Downstream -->
+    <mxCell id="h_downstream" value="Downstream&#xa;(Deploy Pipeline)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#aaaaaa;fontSize=9;strokeWidth=1.5;" vertex="1" parent="1">
+      <mxGeometry x="1100" y="375" width="120" height="50" as="geometry" />
+    </mxCell>
+    <mxCell id="h_arr6" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;endArrow=open;endFill=0;dashed=1;" edge="1" source="h_registry" target="h_downstream" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- ════════════════════════════════════════════════════════════════════ -->
+    <!-- ROW 3 — DEPLOY PIPELINE STRIP                                        -->
+    <!-- ════════════════════════════════════════════════════════════════════ -->
+
+    <!-- Deploy strip background -->
+    <mxCell id="dep_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f9f9f9;strokeColor=#cccccc;strokeWidth=1;arcSize=4;" vertex="1" parent="1">
+      <mxGeometry x="40" y="510" width="1180" height="120" as="geometry" />
+    </mxCell>
+    <mxCell id="dep_title" value="DEPLOY PIPELINE  (Harness → Windows Delegate)" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=9;fontStyle=1;fontColor=#555555;" vertex="1" parent="1">
+      <mxGeometry x="50" y="514" width="400" height="16" as="geometry" />
+    </mxCell>
+
+    <!-- Deploy steps -->
+    <mxCell id="dp1" value="① Retrieve&#xa;Artifact&#xa;from Nexus" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=9;strokeWidth=1.5;" vertex="1" parent="1">
+      <mxGeometry x="55" y="534" width="120" height="68" as="geometry" />
+    </mxCell>
+    <mxCell id="dp_a12" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" source="dp1" target="dp2" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="dp2" value="② Prepare&#xa;Directories&#xa;C:\clarabridge-cs\*" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=9;strokeWidth=1.5;" vertex="1" parent="1">
+      <mxGeometry x="215" y="534" width="130" height="68" as="geometry" />
+    </mxCell>
+    <mxCell id="dp_a23" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" source="dp2" target="dp3" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="dp3" value="③ Deploy&#xa;Config Files&#xa;.env / JSON / schema" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=9;strokeWidth=1.5;" vertex="1" parent="1">
+      <mxGeometry x="385" y="534" width="130" height="68" as="geometry" />
+    </mxCell>
+    <mxCell id="dp_a34" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" source="dp3" target="dp4" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="dp4" value="④ Deploy&#xa;Application&#xa;Expand ZIP" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=9;strokeWidth=1.5;" vertex="1" parent="1">
+      <mxGeometry x="555" y="534" width="120" height="68" as="geometry" />
+    </mxCell>
+    <mxCell id="dp_a45" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" source="dp4" target="dp5" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="dp5" value="⑤ Copy&#xa;PGP Keys&#xa;pgp_dev_key" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=9;strokeWidth=1.5;" vertex="1" parent="1">
+      <mxGeometry x="715" y="534" width="120" height="68" as="geometry" />
+    </mxCell>
+    <mxCell id="dp_a56" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" source="dp5" target="dp6" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="dp6" value="⑥ Acceptance&#xa;Tests&#xa;@Regression" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=9;strokeWidth=1.5;" vertex="1" parent="1">
+      <mxGeometry x="875" y="534" width="120" height="68" as="geometry" />
+    </mxCell>
+    <mxCell id="dp_a67" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" source="dp6" target="dp7" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="dp7" value="✅ Service&#xa;Running" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;fontStyle=1;strokeWidth=1.5;" vertex="1" parent="1">
+      <mxGeometry x="1045" y="534" width="120" height="68" as="geometry" />
+    </mxCell>
+
+    <!-- Arrow from downstream → dp1 -->
+    <mxCell id="h_down_dp1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#555555;strokeWidth=1.5;endArrow=block;endFill=1;dashed=1;" edge="1" source="h_downstream" target="dp1" parent="1">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="1160" y="426" />
+          <mxPoint x="1160" y="500" />
+          <mxPoint x="115" y="500" />
+          <mxPoint x="115" y="534" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+
+    <!-- ════════════════════════════════════════════════════════════════════ -->
+    <!-- ROW 4 — ROLLBACK STRIP                                               -->
+    <!-- ════════════════════════════════════════════════════════════════════ -->
+
+    <mxCell id="rb_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff8f8;strokeColor=#e8b4b4;strokeWidth=1;arcSize=4;" vertex="1" parent="1">
+      <mxGeometry x="40" y="680" width="700" height="110" as="geometry" />
+    </mxCell>
+    <mxCell id="rb_title" value="ROLLBACK STRATEGY" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=9;fontStyle=1;fontColor=#c0392b;" vertex="1" parent="1">
+      <mxGeometry x="50" y="684" width="200" height="16" as="geometry" />
+    </mxCell>
+
+    <mxCell id="rb1" value="L1: Artifact Rollback&#xa;Re-deploy prev version&#xa;(e.g. 2.3.1 ← 2.3.2 fails)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#e8b4b4;fontSize=9;strokeWidth=1.5;" vertex="1" parent="1">
+      <mxGeometry x="55" y="702" width="175" height="72" as="geometry" />
+    </mxCell>
+    <mxCell id="rb_a12" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#c0392b;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" source="rb1" target="rb2" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="rb2" value="L2: Directory Backup&#xa;Restore _backup folder&#xa;C:\clarabridge-cs_backup" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#e8b4b4;fontSize=9;strokeWidth=1.5;" vertex="1" parent="1">
+      <mxGeometry x="270" y="702" width="175" height="72" as="geometry" />
+    </mxCell>
+    <mxCell id="rb_a23" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#c0392b;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" source="rb2" target="rb3" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="rb3" value="L3: Jenkins Fallback&#xa;Jenkins stays live&#xa;Revert deploy to Jenkins" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#e8b4b4;fontSize=9;strokeWidth=1.5;" vertex="1" parent="1">
+      <mxGeometry x="485" y="702" width="175" height="72" as="geometry" />
+    </mxCell>
+
+    <!-- Fail arrow dp6 → rb1 -->
+    <mxCell id="fail_arr" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#c0392b;strokeWidth=1.5;endArrow=block;endFill=1;dashed=1;" edge="1" source="dp6" target="rb1" parent="1">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="935" y="660" />
+          <mxPoint x="142" y="660" />
+          <mxPoint x="142" y="702" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="fail_lbl" value="Fail" style="text;html=1;strokeColor=none;fillColor=none;fontSize=9;fontColor=#c0392b;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="870" y="643" width="34" height="16" as="geometry" />
+    </mxCell>
+
+    <!-- ════════════════════════════════════════════════════════════════════ -->
+    <!-- ROW 4 RIGHT — SPRINT PLAN                                            -->
+    <!-- ════════════════════════════════════════════════════════════════════ -->
+
+    <mxCell id="sp_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0f7ff;strokeColor=#9ecae1;strokeWidth=1;arcSize=4;" vertex="1" parent="1">
+      <mxGeometry x="760" y="680" width="460" height="110" as="geometry" />
+    </mxCell>
+    <mxCell id="sp_title" value="CUTOVER SPRINTS" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=9;fontStyle=1;fontColor=#1a5276;" vertex="1" parent="1">
+      <mxGeometry x="770" y="684" width="200" height="16" as="geometry" />
+    </mxCell>
+
+    <mxCell id="sp1b" value="S1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=8;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="770" y="706" width="34" height="24" as="geometry" />
+    </mxCell>
+    <mxCell id="sp1t" value="Discovery &amp; Connector Setup" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=8;" vertex="1" parent="1">
+      <mxGeometry x="810" y="706" width="200" height="24" as="geometry" />
+    </mxCell>
+
+    <mxCell id="sp2b" value="S2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=8;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="770" y="736" width="34" height="24" as="geometry" />
+    </mxCell>
+    <mxCell id="sp2t" value="Build Pipeline · SonarQube · Nexus IQ" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=8;" vertex="1" parent="1">
+      <mxGeometry x="810" y="736" width="200" height="24" as="geometry" />
+    </mxCell>
+
+    <mxCell id="sp3b" value="S3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=8;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="1020" y="706" width="34" height="24" as="geometry" />
+    </mxCell>
+    <mxCell id="sp3t" value="Deploy Pipeline · Config Deployment" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=8;" vertex="1" parent="1">
+      <mxGeometry x="1060" y="706" width="200" height="24" as="geometry" />
+    </mxCell>
+
+    <mxCell id="sp4b" value="S4" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=8;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="1020" y="736" width="34" height="24" as="geometry" />
+    </mxCell>
+    <mxCell id="sp4t" value="Acceptance Tests · Parallel Validation" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=8;" vertex="1" parent="1">
+      <mxGeometry x="1060" y="736" width="200" height="24" as="geometry" />
+    </mxCell>
+
+    <mxCell id="sp56b" value="S5 Prod Cutover  →  S6 Jenkins Decommission" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=8;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="770" y="766" width="460" height="20" as="geometry" />
+    </mxCell>
+
+  </root>
+</mxGraphModel>
