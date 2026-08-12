@@ -1,0 +1,132 @@
+<mxfile host="app.diagrams.net" modified="2026-08-12T07:01:00.000Z" agent="Mozilla/5.0" version="21.0.0" type="device">
+  <diagram id="jenkins-architecture" name="Jenkins Pipeline Architecture">
+    <mxGraphModel dx="1600" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/><mxCell id="1" parent="0"/>
+
+        <mxCell id="title" value="Current Jenkins Multibranch Pipeline Architecture (clarabridge-file-transfer-cs)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;fontColor=#1A202C;" vertex="1" parent="1">
+          <mxGeometry x="300" y="20" width="1000" height="40" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="ext_dep_container" value="External Dependencies / Integration Points" style="swimlane;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#E2E8F0;strokeWidth=1;fontSize=12;fontStyle=1;fontColor=#4A5568;startSize=25;" vertex="1" parent="1">
+          <mxGeometry x="60" y="80" width="1480" height="120" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="ghe" value="GitHub Enterprise&lt;br&gt;&lt;font color=&quot;#555555&quot; style=&quot;font-size:11px&quot;&gt;Source: clarabridge-file-transfer-cs&lt;br&gt;Configs: clarabridge-env-configurations&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#24292E;fontColor=#FFFFFF;strokeColor=none;align=center;verticalAlign=middle;fontSize=11;fontStyle=1;" vertex="1" parent="ext_dep_container">
+          <mxGeometry x="20" y="35" width="230" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_pypi" value="Nexus PyPI Repo&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;(mip-pypi)&lt;/font&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#EBF8FF;strokeColor=#3182CE;fontSize=11;fontStyle=1;" vertex="1" parent="ext_dep_container">
+          <mxGeometry x="280" y="35" width="150" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_sonar" value="SonarQube Server&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;(Quality Gate Verification)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEFCBF;strokeColor=#D69E2E;fontSize=11;fontStyle=1;" vertex="1" parent="ext_dep_container">
+          <mxGeometry x="460" y="35" width="170" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_nexusiq" value="Nexus IQ Server&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;(Policy Evaluation)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEEBC8;strokeColor=#DD6B20;fontSize=11;fontStyle=1;" vertex="1" parent="ext_dep_container">
+          <mxGeometry x="660" y="35" width="170" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_nexus_bin" value="Nexus Binary Repo&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;(ip-snapshots)&lt;/font&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#C6F6D5;strokeColor=#38A169;fontSize=11;fontStyle=1;" vertex="1" parent="ext_dep_container">
+          <mxGeometry x="860" y="35" width="160" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_win_host" value="Windows Target Host&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;(C:\clarabridge-cs)&lt;/font&gt;" style="shape=module;whiteSpace=wrap;html=1;fillColor=#FED7D7;strokeColor=#E53E3E;fontSize=11;fontStyle=1;" vertex="1" parent="ext_dep_container">
+          <mxGeometry x="1050" y="35" width="190" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_acc_tests" value="Acceptance Test Job&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;(Cucumber / Regression)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E9D8FD;strokeColor=#805AD5;fontSize=11;fontStyle=1;" vertex="1" parent="ext_dep_container">
+          <mxGeometry x="1270" y="35" width="190" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="build_comp" value="mta-jenkins Shared Library (vars/buildComp_xmd_windows.groovy)" style="swimlane;whiteSpace=wrap;html=1;fillColor=#EDF2F7;strokeColor=#CBD5E0;strokeWidth=1;fontSize=12;fontStyle=1;fontColor=#4A5568;startSize=25;" vertex="1" parent="1">
+          <mxGeometry x="60" y="220" width="710" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="deploy_comp" value="mta-jenkins Shared Library (vars/deployComp_xmd_windows.groovy)" style="swimlane;whiteSpace=wrap;html=1;fillColor=#EDF2F7;strokeColor=#CBD5E0;strokeWidth=1;fontSize=12;fontStyle=1;fontColor=#4A5568;startSize=25;" vertex="1" parent="1">
+          <mxGeometry x="830" y="220" width="710" height="130" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="b_s1" value="SCM Checkout" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#A0AEC0;fontSize=10;fontStyle=1;" vertex="1" parent="build_comp"><mxGeometry x="20" y="45" width="100" height="40" as="geometry"/></mxCell>
+        <mxCell id="b_s2" value="Get Version&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;(pyproject.toml)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#A0AEC0;fontSize=10;fontStyle=1;" vertex="1" parent="build_comp"><mxGeometry x="140" y="45" width="110" height="40" as="geometry"/></mxCell>
+        <mxCell id="b_s3" value="Write PIP Config&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;(Nexus Auth)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#A0AEC0;fontSize=10;fontStyle=1;" vertex="1" parent="build_comp"><mxGeometry x="270" y="45" width="115" height="40" as="geometry"/></mxCell>
+        <mxCell id="b_s4" value="Poetry Tasks&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;(Install / Build / Shiv)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EBF8FF;strokeColor=#3182CE;fontSize=10;fontStyle=1;" vertex="1" parent="build_comp"><mxGeometry x="405" y="45" width="125" height="40" as="geometry"/></mxCell>
+        <mxCell id="b_s5" value="Coverage Report" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EBF8FF;strokeColor=#3182CE;fontSize=10;fontStyle=1;" vertex="1" parent="build_comp"><mxGeometry x="550" y="45" width="120" height="40" as="geometry"/></mxCell>
+
+        <mxCell id="dep_s1" value="Get Version" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#A0AEC0;fontSize=10;fontStyle=1;" vertex="1" parent="deploy_comp"><mxGeometry x="20" y="45" width="100" height="40" as="geometry"/></mxCell>
+        <mxCell id="dep_s2" value="Create Folders" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#A0AEC0;fontSize=10;fontStyle=1;" vertex="1" parent="deploy_comp"><mxGeometry x="140" y="45" width="110" height="40" as="geometry"/></mxCell>
+        <mxCell id="dep_s3" value="Deploy&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;(Download / Unzip / Config)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FED7D7;strokeColor=#E53E3E;fontSize=10;fontStyle=1;" vertex="1" parent="deploy_comp"><mxGeometry x="270" y="45" width="140" height="40" as="geometry"/></mxCell>
+        <mxCell id="dep_s4" value="Automation Test&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;(Trigger Downstream)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E9D8FD;strokeColor=#805AD5;fontSize=10;fontStyle=1;" vertex="1" parent="deploy_comp"><mxGeometry x="430" y="45" width="130" height="40" as="geometry"/></mxCell>
+
+        <mxCell id="dev_pipeline" value="Develop Branch Pipeline (Full CI/CD &amp; Quality Checks)" style="swimlane;whiteSpace=wrap;html=1;fillColor=#F7FAFC;strokeColor=#E2E8F0;strokeWidth=2;fontSize=14;fontStyle=1;fontColor=#2D3748;startSize=30;" vertex="1" parent="1">
+          <mxGeometry x="60" y="370" width="1480" height="160" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="master_pipeline" value="Master Branch Pipeline (Production Fast-Track)" style="swimlane;whiteSpace=wrap;html=1;fillColor=#F7FAFC;strokeColor=#E2E8F0;strokeWidth=2;fontSize=14;fontStyle=1;fontColor=#2D3748;startSize=30;" vertex="1" parent="1">
+          <mxGeometry x="60" y="550" width="1480" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="d_p_s1" value="SCM Checkout" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#A0AEC0;fontSize=10;fontStyle=1;" vertex="1" parent="dev_pipeline"><mxGeometry x="20" y="50" width="90" height="40" as="geometry"/></mxCell>
+        <mxCell id="d_p_s2" value="Get Version" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#A0AEC0;fontSize=10;fontStyle=1;" vertex="1" parent="dev_pipeline"><mxGeometry x="120" y="50" width="90" height="40" as="geometry"/></mxCell>
+        <mxCell id="d_p_s3" value="Write PIP Config" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#A0AEC0;fontSize=10;fontStyle=1;" vertex="1" parent="dev_pipeline"><mxGeometry x="220" y="50" width="100" height="40" as="geometry"/></mxCell>
+        <mxCell id="d_p_s4" value="Poetry Tasks" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EBF8FF;strokeColor=#3182CE;fontSize=10;fontStyle=1;" vertex="1" parent="dev_pipeline"><mxGeometry x="330" y="50" width="100" height="40" as="geometry"/></mxCell>
+        <mxCell id="d_p_s5" value="Coverage Report" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EBF8FF;strokeColor=#3182CE;fontSize=10;fontStyle=1;" vertex="1" parent="dev_pipeline"><mxGeometry x="440" y="50" width="110" height="40" as="geometry"/></mxCell>
+        <mxCell id="d_p_s6" value="SonarQube Scan" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEFCBF;strokeColor=#D69E2E;fontSize=10;fontStyle=1;" vertex="1" parent="dev_pipeline"><mxGeometry x="560" y="50" width="110" height="40" as="geometry"/></mxCell>
+        <mxCell id="d_p_s7" value="Quality Gate" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEFCBF;strokeColor=#D69E2E;fontSize=10;fontStyle=1;" vertex="1" parent="dev_pipeline"><mxGeometry x="680" y="50" width="90" height="40" as="geometry"/></mxCell>
+        <mxCell id="d_p_s8" value="Nexus IQ Scan" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEEBC8;strokeColor=#DD6B20;fontSize=10;fontStyle=1;" vertex="1" parent="dev_pipeline"><mxGeometry x="780" y="50" width="90" height="40" as="geometry"/></mxCell>
+        <mxCell id="d_p_s9" value="Upload" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#C6F6D5;strokeColor=#38A169;fontSize=10;fontStyle=1;" vertex="1" parent="dev_pipeline"><mxGeometry x="880" y="50" width="90" height="40" as="geometry"/></mxCell>
+        <mxCell id="d_p_s10" value="Get Version" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#A0AEC0;fontSize=10;fontStyle=1;" vertex="1" parent="dev_pipeline"><mxGeometry x="980" y="50" width="90" height="40" as="geometry"/></mxCell>
+        <mxCell id="d_p_s11" value="Create Folders" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#A0AEC0;fontSize=10;fontStyle=1;" vertex="1" parent="dev_pipeline"><mxGeometry x="1080" y="50" width="100" height="40" as="geometry"/></mxCell>
+        <mxCell id="d_p_s12" value="Deploy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FED7D7;strokeColor=#E53E3E;fontSize=10;fontStyle=1;" vertex="1" parent="dev_pipeline"><mxGeometry x="1190" y="50" width="100" height="40" as="geometry"/></mxCell>
+        <mxCell id="d_p_s13" value="Automation Test" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E9D8FD;strokeColor=#805AD5;fontSize=10;fontStyle=1;" vertex="1" parent="dev_pipeline"><mxGeometry x="1300" y="50" width="110" height="40" as="geometry"/></mxCell>
+        <mxCell id="m_p_s1" value="SCM Checkout" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#A0AEC0;fontSize=10;fontStyle=1;" vertex="1" parent="master_pipeline"><mxGeometry x="20" y="50" width="100" height="40" as="geometry"/></mxCell>
+        <mxCell id="m_p_s2" value="Get Version" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#A0AEC0;fontSize=10;fontStyle=1;" vertex="1" parent="master_pipeline"><mxGeometry x="130" y="50" width="100" height="40" as="geometry"/></mxCell>
+        <mxCell id="m_p_s3" value="Write PIP Config" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#A0AEC0;fontSize=10;fontStyle=1;" vertex="1" parent="master_pipeline"><mxGeometry x="240" y="50" width="110" height="40" as="geometry"/></mxCell>
+        <mxCell id="m_p_s4" value="Poetry Tasks" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EBF8FF;strokeColor=#3182CE;fontSize=10;fontStyle=1;" vertex="1" parent="master_pipeline"><mxGeometry x="360" y="50" width="110" height="40" as="geometry"/></mxCell>
+        <mxCell id="m_p_s5" value="Nexus IQ Scan" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEEBC8;strokeColor=#DD6B20;fontSize=10;fontStyle=1;" vertex="1" parent="master_pipeline"><mxGeometry x="480" y="50" width="100" height="40" as="geometry"/></mxCell>
+        <mxCell id="m_p_s6" value="Upload" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#C6F6D5;strokeColor=#38A169;fontSize=10;fontStyle=1;" vertex="1" parent="master_pipeline"><mxGeometry x="590" y="50" width="90" height="40" as="geometry"/></mxCell>
+        <mxCell id="m_p_s7" value="Get Version" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#A0AEC0;fontSize=10;fontStyle=1;" vertex="1" parent="master_pipeline"><mxGeometry x="690" y="50" width="100" height="40" as="geometry"/></mxCell>
+        <mxCell id="m_p_s8" value="Create Folders" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#A0AEC0;fontSize=10;fontStyle=1;" vertex="1" parent="master_pipeline"><mxGeometry x="800" y="50" width="110" height="40" as="geometry"/></mxCell>
+        <mxCell id="m_p_s9" value="Deploy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FED7D7;strokeColor=#E53E3E;fontSize=10;fontStyle=1;" vertex="1" parent="master_pipeline"><mxGeometry x="920" y="50" width="110" height="40" as="geometry"/></mxCell>
+        <mxCell id="m_p_s10" value="Automation Test" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E9D8FD;strokeColor=#805AD5;fontSize=10;fontStyle=1;" vertex="1" parent="master_pipeline"><mxGeometry x="1040" y="50" width="120" height="40" as="geometry"/></mxCell>
+        <mxCell id="dpe1" edge="1" parent="dev_pipeline" source="d_p_s1" target="d_p_s2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="dpe2" edge="1" parent="dev_pipeline" source="d_p_s2" target="d_p_s3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="dpe3" edge="1" parent="dev_pipeline" source="d_p_s3" target="d_p_s4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="dpe4" edge="1" parent="dev_pipeline" source="d_p_s4" target="d_p_s5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="dpe5" edge="1" parent="dev_pipeline" source="d_p_s5" target="d_p_s6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="dpe6" edge="1" parent="dev_pipeline" source="d_p_s6" target="d_p_s7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="dpe7" edge="1" parent="dev_pipeline" source="d_p_s7" target="d_p_s8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="dpe8" edge="1" parent="dev_pipeline" source="d_p_s8" target="d_p_s9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="dpe9" edge="1" parent="dev_pipeline" source="d_p_s9" target="d_p_s10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="dpe10" edge="1" parent="dev_pipeline" source="d_p_s10" target="d_p_s11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="dpe11" edge="1" parent="dev_pipeline" source="d_p_s11" target="d_p_s12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="dpe12" edge="1" parent="dev_pipeline" source="d_p_s12" target="d_p_s13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="mpe1" edge="1" parent="master_pipeline" source="m_p_s1" target="m_p_s2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="mpe2" edge="1" parent="master_pipeline" source="m_p_s2" target="m_p_s3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="mpe3" edge="1" parent="master_pipeline" source="m_p_s3" target="m_p_s4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="mpe4" edge="1" parent="master_pipeline" source="m_p_s4" target="m_p_s5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="mpe5" edge="1" parent="master_pipeline" source="m_p_s5" target="m_p_s6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="mpe6" edge="1" parent="master_pipeline" source="m_p_s6" target="m_p_s7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="mpe7" edge="1" parent="master_pipeline" source="m_p_s7" target="m_p_s8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="mpe8" edge="1" parent="master_pipeline" source="m_p_s8" target="m_p_s9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="mpe9" edge="1" parent="master_pipeline" source="m_p_s9" target="m_p_s10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="phase_ci_dev" value="CI Phase (Build &amp; Quality)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=11;fontStyle=1;fontColor=#2B6CB0;" vertex="1" parent="1"><mxGeometry x="400" y="380" width="180" height="20" as="geometry"/></mxCell>
+        <mxCell id="phase_cd_dev" value="CD Phase (Deployment &amp; Test)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=11;fontStyle=1;fontColor=#9B2C2C;" vertex="1" parent="1"><mxGeometry x="1100" y="380" width="200" height="20" as="geometry"/></mxCell>
+        <mxCell id="phase_ci_mast" value="CI Phase (Production Build)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=11;fontStyle=1;fontColor=#2B6CB0;" vertex="1" parent="1"><mxGeometry x="320" y="560" width="180" height="20" as="geometry"/></mxCell>
+        <mxCell id="phase_cd_mast" value="CD Phase (Production Deploy &amp; Test)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=11;fontStyle=1;fontColor=#9B2C2C;" vertex="1" parent="1"><mxGeometry x="850" y="560" width="260" height="20" as="geometry"/></mxCell>
+        <mxCell id="xedge1" edge="1" parent="1" source="ghe" target="b_s1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="xedge2" edge="1" parent="1" source="ext_pypi" target="b_s3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="xedge3" edge="1" parent="1" source="ext_sonar" target="d_p_s6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="xedge4" edge="1" parent="1" source="ext_nexusiq" target="d_p_s8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="xedge5" edge="1" parent="1" source="ext_nexus_bin" target="d_p_s9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="xedge6" edge="1" parent="1" source="ext_win_host" target="d_p_s12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="xedge7" edge="1" parent="1" source="ext_acc_tests" target="d_p_s13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="xedge8" edge="1" parent="1" source="ext_nexusiq" target="m_p_s5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="xedge9" edge="1" parent="1" source="ext_nexus_bin" target="m_p_s6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="xedge10" edge="1" parent="1" source="ext_win_host" target="m_p_s9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="xedge11" edge="1" parent="1" source="ext_acc_tests" target="m_p_s10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="libedge1" edge="1" parent="1" source="b_s1" target="d_p_s1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="libedge2" edge="1" parent="1" source="b_s5" target="d_p_s5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="libedge3" edge="1" parent="1" source="dep_s1" target="d_p_s10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="libedge4" edge="1" parent="1" source="dep_s4" target="d_p_s13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="libedge5" edge="1" parent="1" source="b_s1" target="m_p_s1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="libedge6" edge="1" parent="1" source="dep_s1" target="m_p_s7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="libedge7" edge="1" parent="1" source="dep_s4" target="m_p_s10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#718096;endArrow=classic;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="legend" value="Legend:  CI / Build &amp; Quality  |  CD / Deployment &amp; Test  |  External dependency / integration point" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;fontColor=#4A5568;" vertex="1" parent="1"><mxGeometry x="60" y="710" width="900" height="25" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
